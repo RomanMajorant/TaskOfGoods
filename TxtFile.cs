@@ -5,18 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tour
+namespace GoodsTask
 {
     class TxtFile : IFileManager
     {
-        string path = @"C:\Users\vasil\source\repos\Tour\";
-        public List<Tour_Info> LoadFromFile(string fileName)
+        string path = @"C:\Users\makot\source\repos\GoodsTask\GoodsTask\";
+        public List<Goods_Info> LoadFromFile(string fileName)
         {
             try
             {
                 using (StreamReader sr = new StreamReader(path + fileName, System.Text.Encoding.Default))
                 {
-                    List<Tour_Info> list = new List<Tour_Info>();
+                    List<Goods_Info> list = new List<Goods_Info>();
                     while (sr.Peek() > -1)
                     {
                         string name = sr?.ReadLine();
@@ -27,12 +27,8 @@ namespace Tour
                         int countgoods;
                         int.TryParse(sr?.ReadLine(), out countgoods);
                         sr?.ReadLine();
-                        DateTime shelflife = DateTime.Parse(sr?.ReadLine()); //сделать отдельную функцию ввода данных
-                        //DateTime ret_date = DateTime.Parse(sr?.ReadLine());
-                        //int price;
-                        //int.TryParse(sr?.ReadLine(), out price);
-                        //sr?.ReadLine();
-                        Tour_Info tmp = new Tour_Info(name, typegoods, Price, countgoods, shelflife);
+                        DateTime shelflife = DateTime.Parse(sr?.ReadLine());
+                        Goods_Info tmp = new Goods_Info(name, typegoods, Price, countgoods, shelflife);
                         list.Add(tmp);
                     }
                     sr.Close();
@@ -42,32 +38,30 @@ namespace Tour
 
             catch
             {
-                throw new Exception("Такого файла не существует"); //жесткое исключение. Делал для проверки файла на существование, но для этого есть FileExists
+                throw new Exception("Такого файла не существует");
             }
 
         }
 
-        public void PrintToFile(List<Tour_Info> list, string fileName)
+        public void PrintToFile(List<Goods_Info> list, string fileName)
         {
-            string writePath = @"C:\Users\vasil\source\repos\Tour\";
+            string writePath = @"C:\Users\makot\source\repos\GoodsTask\GoodsTask\";
             try
             {
                 using (StreamWriter sw = new StreamWriter(writePath + fileName, false, System.Text.Encoding.Default))
                 {
-                    foreach(var item in list)
+                    foreach (var item in list)
                     {
                         sw.WriteLine(item.Name);
                         sw.WriteLine(item.Price.ToString());
                         sw.WriteLine(item.TypeGoods);
                         sw.WriteLine(item.CountGoods.ToString());
-                        sw.WriteLine(item.ShelfLife.ToShortDateString().ToString()); //сделать отдельную функцию вывода данных
-                        //sw.WriteLine(item.Return_Date.ToShortDateString().ToString());
-                        //sw.WriteLine(item.Price.ToString());
+                        sw.WriteLine(item.ShelfLife.ToShortDateString().ToString());
                         sw.WriteLine();
                     }
                     sw.Close();
                 }
-                Console.WriteLine("Запись выполнена"); //обращения к консоли не должно быть отсюда
+                Console.WriteLine("Запись выполнена"); Console.WriteLine();
             }
             catch (Exception e)
             {

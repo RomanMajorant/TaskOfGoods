@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Tour
+
+namespace GoodsTask
 {
     class XmlFIle : IFileManager
     {
-        public List<Tour_Info> LoadFromFile(string fileName)
+        public List<Goods_Info> LoadFromFile(string fileName)
         {
             try
             {
                 using (XmlReader reader = XmlReader.Create(fileName))
                 {
-                    XmlSerializer s = new XmlSerializer(typeof(List<Tour_Info>));
-                    return (List<Tour_Info>)s.Deserialize(reader);
+                    XmlSerializer s = new XmlSerializer(typeof(List<Goods_Info>));
+                    return (List<Goods_Info>)s.Deserialize(reader);
                 }
             }
 
@@ -27,11 +28,11 @@ namespace Tour
             }
         }
 
-        public void PrintToFile(List<Tour_Info> list, string fileName)
+        public void PrintToFile(List<Goods_Info> list, string fileName)
         {
             using (XmlWriter writer = XmlWriter.Create(fileName))
             {
-                XmlSerializer s = new XmlSerializer(typeof(List<Tour_Info>));
+                XmlSerializer s = new XmlSerializer(typeof(List<Goods_Info>));
                 s.Serialize(writer, list);
                 writer.Close();
             }

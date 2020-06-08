@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tour
+namespace GoodsTask
 {
     public interface IFileManager
     {
-        void PrintToFile(List<Tour_Info> list, string fileName);
-        List<Tour_Info> LoadFromFile(string fileName);
+        void PrintToFile(List<Goods_Info> list, string fileName);
+        List<Goods_Info> LoadFromFile(string fileName);
     }
 }

@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tour
+namespace GoodsTask
 {
     public class ConsoleHelper
     {
-        public static void PrintToConsole(List<Tour_Info> list) //Печать листа 
+        public static void PrintToConsole(List<Goods_Info> list) //Печать листа 
         {
             int i = 0;
             foreach (var item in list)
@@ -18,17 +18,16 @@ namespace Tour
                 Console.WriteLine(item.ToString());
                 i++;
             }
-            Console.WriteLine(String.Format("Количество туров : {0}", i));
+            Console.WriteLine(String.Format("Количество товаров : {0}", i));
             Console.ReadLine();
             Console.WriteLine();
         }
 
-        public static List<Tour_Info> InputData() // Выбор источника ввода и ввод данных
+        public static List<Goods_Info> InputData() // Выбор источника ввода и ввод данных
         {
             Console.WriteLine("Выберите источник для ввода информации. 1 - консоль, 2 - файл");
-            int response = 1;
-            //response = 1;
-            //int.TryParse(Console.ReadLine(), out response);
+            int response;
+            int.TryParse(Console.ReadLine(), out response);
             switch (response)
             {
                 case 1:
@@ -41,13 +40,13 @@ namespace Tour
             }
         }
 
-        public static List<Tour_Info> InputDataFromConsole() //Ввод данных из консоли
+        public static List<Goods_Info> InputDataFromConsole() //Ввод данных из консоли
         {
             int response;
-            List<Tour_Info> list = new List<Tour_Info>();
+            List<Goods_Info> list = new List<Goods_Info>();
             do
             {
-                Console.WriteLine("Введите информацию о товаре");
+                Console.WriteLine("Вводите информацию о товарах");
                 Console.WriteLine();
                 SetTour(list);
                 Console.WriteLine("Если хотите добавить еще один товар, нажмите любую клавишу, а для отмены ввода нажмите 0");
@@ -57,7 +56,7 @@ namespace Tour
             return list;
         }
 
-        public static void SetTour(List<Tour_Info> list) //Создание объекта Tour_Info
+        public static void SetTour(List<Goods_Info> list) //Создание объекта Tour_Info
         {
             Console.WriteLine("Введите название");
             string name = Console.ReadLine();
@@ -66,69 +65,19 @@ namespace Tour
             Console.WriteLine("Введите  цену");
             int price;
             int.TryParse(Console.ReadLine(), out price);
-            Console.ReadLine();
-            //string hotel = Console.ReadLine();
             int countgoods;
+            Console.WriteLine("Введите  кол-во товара");
             int.TryParse(Console.ReadLine(), out countgoods);
             Console.WriteLine("Введите срок годности");
             DateTime shelflife = DateTime.Parse(Console.ReadLine());
-            Console.ReadLine();
-            //Console.WriteLine("Введите дату возврата");
-            //DateTime ret_date = DateTime.Parse(Console.ReadLine());
-            //Console.WriteLine("Введите цену");
-            //int price;
-            //int.TryParse(Console.ReadLine(), out price);
-            //Console.ReadLine();
-            Tour_Info tmp = new Tour_Info(name, typegoods, price, countgoods, shelflife);
+            Goods_Info tmp = new Goods_Info(name, typegoods, price, countgoods, shelflife);
             list.Add(tmp);
         }
 
-        public static Seasons GetSeason() //Определение времени года
-        {
-            Console.WriteLine("Выберите сезон года 1 - Зима, 2 - Весна, 3 - Лето, 4 - Осень");
-            int response;
-            int.TryParse(Console.ReadLine(), out response);
-            switch (response)
-            {
-                case 1:
-                    return Seasons.Зима;
-                case 2:
-                    return Seasons.Весна;
-                case 3:
-                    return Seasons.Лето;
-                case 4:
-                    return Seasons.Осень;
-                default:
-                    throw new Exception("Введены неверные данные");
-            }
-        }
-
-        public static List<int> GetPeriod() //Получение листа месяцев давнного времени года
-        {
-            List<int> list;
-            switch (GetSeason())
-            {
-                case Seasons.Зима:
-                    list = new List<int>() { 1, 2, 12 };
-                    break;
-                case Seasons.Весна:
-                    list = new List<int>() { 3, 4, 5 };
-                    break;
-                case Seasons.Лето:
-                    list = new List<int>() { 6, 7, 8 };
-                    break;
-                case Seasons.Осень:
-                    list = new List<int>() { 9, 10, 11 };
-                    break;
-                default:
-                    throw new Exception("Введены неверные данные");
-            }
-            return list;
-        }
 
         public static IFileManager ChooseFile(out string fName) //выбор типа файла для вывода информации
         {
-            Console.WriteLine("Введите имя файла: ");
+            Console.WriteLine("Введите имя файла с его разрешением: ");
             string responce = Console.ReadLine();
             fName = responce;
             return FileFactory.GetFile(Path.GetExtension(responce));

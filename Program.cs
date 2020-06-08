@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tour
+
+namespace GoodsTask
 {
     class Program
     {
         static void Main(string[] args)
         {
-            List<Tour_Info> list = ConsoleHelper.InputData();
+            List<Goods_Info> list = ConsoleHelper.InputData();
             ConsoleHelper.PrintToConsole(list);
             int responce;
             do
@@ -29,7 +30,7 @@ namespace Tour
                         ConsoleHelper.PrintToConsole(list);
                         break;
                     case 2:
-                        List<Tour_Info> sortedList = SortTours(list);
+                        List<Goods_Info> sortedList = SortTours(list);
                         ConsoleHelper.PrintToConsole(sortedList);
                         break;
                     case 3:
@@ -49,29 +50,20 @@ namespace Tour
                         break;
                 }
             }
-            while (responce != 0);                
+            while (responce != 0);
         }
 
-        static List<Tour_Info> SortTours(List<Tour_Info> list)
+        static List<Goods_Info> SortTours(List<Goods_Info> list)
         {
             Console.WriteLine(/*"Введите название страны"*/"Введите кол-во дней :");
-            //string country = Console.ReadLine();
             int CountDays;
             int.TryParse(Console.ReadLine(), out CountDays);
             Console.WriteLine();
-            //List<int> season = ConsoleHelper.GetPeriod();
-            //Console.WriteLine();
             DateTime CurrentDate = DateTime.Now;
-            List<Tour_Info> sortedList = list.Where(cn => cn.ShelfLife < CurrentDate.AddDays(-1 * CountDays))
+            List<Goods_Info> sortedList = list.Where(cn => cn.ShelfLife < CurrentDate.AddDays(1 * CountDays))
                                  .OrderBy(item => item.ShelfLife)
-                                 //.ThenBy(item => item.Departure_Date)
-                                 //.ThenBy(item => item.Return_Date.Subtract(item.Departure_Date))
                                  .ToList();
             return sortedList;
-            /*if (CurrentDate.AddDays(-1*CountDays)> cn.ShelfLife) {
-
-            }*/
         }
     }
 }
-// Сощдание сохранение по расширению, создать класс фабрики, разобраться с интерфейсом, и желательно обработку листа в отдельный класс
