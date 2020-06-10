@@ -1,0 +1,7 @@
+C:\Users\makot\source\repos\GoodsTask\GoodsTask\obj\Debug\GoodsTask.csprojAssemblyReference.cache
+C:\Users\makot\source\repos\GoodsTask\GoodsTask\obj\Debug\GoodsTask.csproj.CoreCompileInputs.cache
+C:\Users\makot\source\repos\GoodsTask\GoodsTask\bin\Debug\GoodsTask.exe.config
+C:\Users\makot\source\repos\GoodsTask\GoodsTask\bin\Debug\GoodsTask.exe
+C:\Users\makot\source\repos\GoodsTask\GoodsTask\bin\Debug\GoodsTask.pdb
+C:\Users\makot\source\repos\GoodsTask\GoodsTask\obj\Debug\GoodsTask.exe
+C:\Users\makot\source\repos\GoodsTask\GoodsTask\obj\Debug\GoodsTask.pdb

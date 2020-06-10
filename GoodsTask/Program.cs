@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;//область имен с системными базовыми классами
+using System.Collections.Generic;//Коллекции и все такое
+using System.Linq;//Работа с источниками данных (в том числе массивы и т.п.)
+
 
 
 namespace GoodsTask
@@ -22,7 +21,12 @@ namespace GoodsTask
                     "\n3 - Сохранить все данные в файл" +
                     "\n4 - Удалить данные о товаре" +
                     "\n0 - Завершение работы");
-                int.TryParse(Console.ReadLine(), out responce);
+                Console.WriteLine();
+                if (!(int.TryParse(Console.ReadLine(), out responce)))
+                {
+                    Console.WriteLine("error");
+                    return;
+                }//if tryparse
                 switch (responce)
                 {
                     case 1:
@@ -36,16 +40,16 @@ namespace GoodsTask
                     case 3:
                         string name;
                         IFileManager file = ConsoleHelper.ChooseFile(out name);
-                        string message;
-                        file.PrintToFile(list, name, out message);
-                        Console.WriteLine(message);
+                        bool FlagMessage;
+                        file.PrintToFile(list, name, out FlagMessage);
+                        Console.WriteLine(FlagMessage ? "Запись успешно выполнена" : "Запись не выполнена");
                         Console.WriteLine();
                         break;
                     case 4:
-                        Console.ReadLine();
-                        Console.WriteLine("Выберите какой элемент удалить, начиная с 0");
+                        Console.WriteLine();
+                        Console.WriteLine("Введите номер элемента, который нужно удалить, начиная с 0");
                         int resp;
-                        int.TryParse(Console.ReadLine(), out resp);
+                        int.TryParse(Console.ReadLine(), out resp);//!!!
                         list.RemoveAt(resp);
                         Console.WriteLine("Удаление завершено");
                         Console.ReadLine();
@@ -58,7 +62,7 @@ namespace GoodsTask
 
         static List<Goods_Info> SortTours(List<Goods_Info> list)
         {
-            Console.WriteLine("Введите кол-во дней :");
+            Console.WriteLine("Введите кол-во дней:");
             int CountDays;
             int.TryParse(Console.ReadLine(), out CountDays);
             Console.WriteLine();

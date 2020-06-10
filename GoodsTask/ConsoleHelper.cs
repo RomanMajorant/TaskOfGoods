@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;//область имен с системными базовыми классами
+using System.Collections.Generic;//Коллекции и все такое
+using System.IO;//для записи и чтения файлов, ввода и вывода данных
+
 
 namespace GoodsTask
 {
@@ -25,7 +23,7 @@ namespace GoodsTask
 
         public static List<Goods_Info> InputData() // Выбор источника ввода и ввод данных
         {
-            Console.WriteLine("Выберите источник для ввода информации. 1 - консоль, 2 - файл");
+            Console.WriteLine("Выберите источник для ввода информации: 1 - консоль, 2 - файл");
             int response;
             int.TryParse(Console.ReadLine(), out response);
             switch (response)
@@ -36,7 +34,7 @@ namespace GoodsTask
                     string name;
                     //string message;                   
                     return ChooseFile(out name).LoadFromFile(name);
-                    
+
                 default:
                     throw new Exception("Введены неверные данные");
             }
@@ -48,9 +46,9 @@ namespace GoodsTask
             List<Goods_Info> list = new List<Goods_Info>();
             do
             {
-                Console.WriteLine("Вводите информацию о товарах");
+                Console.WriteLine("Вводите информацию о товарах: ");
                 Console.WriteLine();
-                SetTour(list);
+                SetGoods(list);
                 Console.WriteLine("Если хотите добавить еще один товар, нажмите любую клавишу, а для отмены ввода нажмите 0");
                 int.TryParse(Console.ReadLine(), out response);
             }
@@ -58,19 +56,19 @@ namespace GoodsTask
             return list;
         }
 
-        public static void SetTour(List<Goods_Info> list) //Создание объекта Tour_Info
+        public static void SetGoods(List<Goods_Info> list) //Создание объекта Goods_Info
         {
-            Console.WriteLine("Введите название");
+            Console.WriteLine("Введите название:");
             string name = Console.ReadLine();
-            Console.WriteLine("Введите тип товара");
+            Console.WriteLine("Введите тип товара:");
             string typegoods = Console.ReadLine();
-            Console.WriteLine("Введите  цену");
+            Console.WriteLine("Введите цену:");
             int price;
             int.TryParse(Console.ReadLine(), out price);
             int countgoods;
-            Console.WriteLine("Введите  кол-во товара");
+            Console.WriteLine("Введите кол-во товара:");
             int.TryParse(Console.ReadLine(), out countgoods);
-            Console.WriteLine("Введите срок годности");
+            Console.WriteLine("Введите срок годности:");
             DateTime shelflife = DateTime.Parse(Console.ReadLine());
             Goods_Info tmp = new Goods_Info(name, typegoods, price, countgoods, shelflife);
             list.Add(tmp);
@@ -79,9 +77,10 @@ namespace GoodsTask
 
         public static IFileManager ChooseFile(out string fName) //выбор типа файла для вывода информации
         {
-            Console.WriteLine("Введите имя файла с его разрешением: ");
+            Console.WriteLine("Введите полный путь до файла с его разрешением:");
             string responce = Console.ReadLine();
             fName = responce;
+            Console.WriteLine();
             return FileFactory.GetFile(Path.GetExtension(responce));
         }
     }
