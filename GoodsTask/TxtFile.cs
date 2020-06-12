@@ -7,12 +7,11 @@ namespace GoodsTask
 {
     class TxtFile : IFileManager
     {
-        //string path = @"C:\Users\makot\Desktop\GoodsTask\";//!!!
         public List<Goods_Info> LoadFromFile(string fileName)
         {
             if (File.Exists(fileName))
             {
-                using (StreamReader sr = new StreamReader(fileName, System.Text.Encoding.Default)) //path combine
+                using (StreamReader sr = new StreamReader(fileName, System.Text.Encoding.Default)) 
                 {
                     List<Goods_Info> list = new List<Goods_Info>();
                     while (sr.Peek() > -1)
@@ -41,9 +40,8 @@ namespace GoodsTask
 
 
 
-        public void PrintToFile(List<Goods_Info> list, string fileName, out bool FlagMessage)
+        public bool PrintToFile(List<Goods_Info> list, string fileName)//done
         {
-            //string writePath = @"C:\Users\makot\Desktop\GoodsTask\";//!!!
             try
             {
                 using (StreamWriter sw = new StreamWriter(fileName, false, System.Text.Encoding.Default))
@@ -60,11 +58,11 @@ namespace GoodsTask
                     sw.Close();
                 }
 
-                FlagMessage = true;
+                return true;
             }
             catch
             {
-                FlagMessage = false;//bool и проверка сверху (внешний)
+                return false;
             }
         }
     }

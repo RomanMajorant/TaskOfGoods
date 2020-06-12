@@ -21,23 +21,26 @@ namespace GoodsTask
             Console.WriteLine();
         }
 
-        public static List<Goods_Info> InputData() // Выбор источника ввода и ввод данных
+        public static List<Goods_Info> InputData(int resp) // Выбор источника ввода и ввод данных
         {
-            Console.WriteLine("Выберите источник для ввода информации: 1 - консоль, 2 - файл");
-            int response;
-            int.TryParse(Console.ReadLine(), out response);
-            switch (response)
-            {
-                case 1:
-                    return InputDataFromConsole();
-                case 2:
-                    string name;
-                    //string message;                   
-                    return ChooseFile(out name).LoadFromFile(name);
+            //Console.WriteLine("Выберите источник для ввода информации: 1 - консоль, 2 - файл");
+            //int response;
+            //int.TryParse(Console.ReadLine(), out response);
+       
+                switch (resp)
+                {
+                    case 1:
+                        return InputDataFromConsole();
+                    case 2:
+                        string name;
+                        //string message;                   
+                        return ChooseFile(out name).LoadFromFile(name);
 
-                default:
-                    throw new Exception("Введены неверные данные");
-            }
+                    default:
+                        throw new Exception("Введены неверные данные");
+                }
+  
+            
         }
 
         public static List<Goods_Info> InputDataFromConsole() //Ввод данных из консоли
@@ -64,10 +67,20 @@ namespace GoodsTask
             string typegoods = Console.ReadLine();
             Console.WriteLine("Введите цену:");
             int price;
-            int.TryParse(Console.ReadLine(), out price);
+            if(!(int.TryParse(Console.ReadLine(), out price)))
+            {
+                Console.WriteLine("Ошибка ввода");
+                Console.ReadLine();
+                return;
+            }
             int countgoods;
             Console.WriteLine("Введите кол-во товара:");
-            int.TryParse(Console.ReadLine(), out countgoods);
+            if(!(int.TryParse(Console.ReadLine(), out countgoods)))
+            {
+                Console.WriteLine("Ошибка ввода");
+                Console.ReadLine();
+                return;
+            }
             Console.WriteLine("Введите срок годности:");
             DateTime shelflife = DateTime.Parse(Console.ReadLine());
             Goods_Info tmp = new Goods_Info(name, typegoods, price, countgoods, shelflife);

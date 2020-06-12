@@ -25,7 +25,7 @@ namespace GoodsTask
             }
         }
 
-        public void PrintToFile(List<Goods_Info> list, string fileName, out bool FlagMessage)
+        public bool PrintToFile(List<Goods_Info> list, string fileName)//done
         {
             using (XmlWriter writer = XmlWriter.Create(fileName))
             {
@@ -33,7 +33,7 @@ namespace GoodsTask
                 s.Serialize(writer, list);
                 writer.Close();
             }
-            FlagMessage = true;
+            return true;
         }
     }
 }

@@ -10,64 +10,102 @@ namespace GoodsTask
     {
         static void Main(string[] args)
         {
-            List<Goods_Info> list = ConsoleHelper.InputData();
-            ConsoleHelper.PrintToConsole(list);
             int responce;
-            do
+            Console.WriteLine("Выберите источник для ввода информации: 1 - консоль, 2 - файл");
+            if (int.TryParse(Console.ReadLine(), out responce))
             {
-                Console.WriteLine("Что вы хотите сделать?" +
-                    "\n1 - Добавить товар" +
-                    "\n2 - Вывести информацию о продуктах, у которых через заданное кол-во дней закончится срок годности" +
-                    "\n3 - Сохранить все данные в файл" +
-                    "\n4 - Удалить данные о товаре" +
-                    "\n0 - Завершение работы");
-                Console.WriteLine();
-                if (!(int.TryParse(Console.ReadLine(), out responce)))
+                List<Goods_Info> list = ConsoleHelper.InputData(responce);
+                ConsoleHelper.PrintToConsole(list);
+                //int responce;
+                do
                 {
-                    Console.WriteLine("error");
-                    return;
-                }//if tryparse
-                switch (responce)
-                {
-                    case 1:
-                        list = list.Concat(ConsoleHelper.InputData()).ToList();
-                        ConsoleHelper.PrintToConsole(list);
-                        break;
-                    case 2:
-                        List<Goods_Info> sortedList = SortTours(list);
-                        ConsoleHelper.PrintToConsole(sortedList);
-                        break;
-                    case 3:
-                        string name;
-                        IFileManager file = ConsoleHelper.ChooseFile(out name);
-                        bool FlagMessage;
-                        file.PrintToFile(list, name, out FlagMessage);
-                        Console.WriteLine(FlagMessage ? "Запись успешно выполнена" : "Запись не выполнена");
-                        Console.WriteLine();
-                        break;
-                    case 4:
-                        Console.WriteLine();
-                        Console.WriteLine("Введите номер элемента, который нужно удалить, начиная с 0");
-                        int resp;
-                        int.TryParse(Console.ReadLine(), out resp);//!!!
-                        list.RemoveAt(resp);
-                        Console.WriteLine("Удаление завершено");
+                    Console.WriteLine("Что вы хотите сделать?" +
+                        "\n1 - Добавить товар" +
+                        "\n2 - Вывести информацию о продуктах, у которых через заданное кол-во дней закончится срок годности" +
+                        "\n3 - Сохранить все данные в файл" +
+                        "\n4 - Удалить данные о товаре" +
+                        "\n0 - Завершение работы");
+                    Console.WriteLine();
+                    if (!(int.TryParse(Console.ReadLine(), out responce)))
+                    {
+                        Console.WriteLine("Error, убедитесь, что вводите цифры...");
                         Console.ReadLine();
-                        ConsoleHelper.PrintToConsole(list);
-                        break;
+                        return;
+                    }
+                    switch (responce)
+                    {
+                        case 1:
+                            int response;
+                            Console.WriteLine("Выберите источник для ввода информации: 1 - консоль, 2 - файл");
+                            if ((int.TryParse(Console.ReadLine(), out response)))
+                            {
+                                list = list.Concat(ConsoleHelper.InputData(response)).ToList();
+                                ConsoleHelper.PrintToConsole(list);
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ошибка при вводе");
+                            }
+                            break;
+                        case 2:
+                            Console.WriteLine("Введите кол-во дней:");
+                            int CountDays;
+                            if (!(int.TryParse(Console.ReadLine(), out CountDays)))
+                            {
+                                Console.WriteLine("Ошибка ввода!");
+                                Console.ReadLine();
+                                break;
+                            }
+                            Console.WriteLine();
+                            List<Goods_Info> sortedList = SortTours(list, CountDays);
+                            ConsoleHelper.PrintToConsole(sortedList);
+                            break;
+                        case 3:
+                            string name;
+                            IFileManager file = ConsoleHelper.ChooseFile(out name);
+                            Console.WriteLine(file.PrintToFile(list, name) ? "Запись успешно выполнена" : "Запись не выполнена");//done
+                            Console.WriteLine();
+                            break;
+                        case 4:
+                            Console.WriteLine();
+                            Console.WriteLine("Введите номер элемента, который нужно удалить, начиная с 0");
+                            int resp;
+                            if (int.TryParse(Console.ReadLine(), out resp))
+                            {
+                                list.RemoveAt(resp);
+                                Console.WriteLine("Удаление завершено");
+                                Console.ReadLine();
+                                ConsoleHelper.PrintToConsole(list);
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ошибка при вводе");
+                                Console.ReadLine();
+                            }
+                            break;
+                    }
                 }
+                while (responce != 0);
             }
-            while (responce != 0);
+            else
+            {
+                Console.WriteLine("Ошибка ввода");
+                Console.ReadLine();
+                return;
+            }
         }
+            
 
-        static List<Goods_Info> SortTours(List<Goods_Info> list)
+        static List<Goods_Info> SortTours(List<Goods_Info> list, int countdays)
         {
-            Console.WriteLine("Введите кол-во дней:");
-            int CountDays;
-            int.TryParse(Console.ReadLine(), out CountDays);
-            Console.WriteLine();
+            //Console.WriteLine("Введите кол-во дней:");
+            //int CountDays;
+            //int.TryParse(Console.ReadLine(), out CountDays);//!!!!!!ИСПРАВИТЬ ТУТ ТОЖЕ ПАРСИНГ
+            //Console.WriteLine();
             DateTime CurrentDate = DateTime.Now;
-            List<Goods_Info> sortedList = list.Where(cn => cn.ShelfLife < CurrentDate.AddDays(1 * CountDays))
+            List<Goods_Info> sortedList = list.Where(cn => cn.ShelfLife < CurrentDate.AddDays(1 * countdays))
                                  .OrderBy(item => item.ShelfLife)
                                  .ToList();
             return sortedList;

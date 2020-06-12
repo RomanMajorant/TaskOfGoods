@@ -24,7 +24,7 @@ namespace GoodsTask
             }
         }
 
-        public void PrintToFile(List<Goods_Info> list, string fileName, out bool FlagMessage)
+        public bool PrintToFile(List<Goods_Info> list, string fileName)//done
         {
             using (FileStream f = new FileStream(fileName, FileMode.OpenOrCreate))
             {
@@ -32,7 +32,7 @@ namespace GoodsTask
                 bf.Serialize(f, list);
                 f.Close();
             }
-            FlagMessage = true;
+            return true;
         }
     }
 }

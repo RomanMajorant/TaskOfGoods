@@ -8,7 +8,7 @@ namespace GoodsTask
 {
     public interface IFileManager
     {
-        void PrintToFile(List<Goods_Info> list, string fileName, out bool message);
+        bool PrintToFile(List<Goods_Info> list, string fileName);//done
         List<Goods_Info> LoadFromFile(string fileName);
     }
 }
